@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ClosetSwap
 
-## Getting Started
+A peer-to-peer clothing rental marketplace — rent out clothes you own, rent great pieces from
+people near you instead of buying something you'll wear once. Final project for Internet
+Technologies, RUNI CS 2026.
 
-First, run the development server:
+- **Live app**: _add Vercel URL after deploying_
+- **Repository**: _add GitHub URL after pushing_
+
+## Documentation
+
+| Doc | What's in it |
+| --- | --- |
+| [Product spec](docs/product-spec.md) | The problem, users, business goals, core flows |
+| [Technical design](docs/technical-design.md) | Stack, folder structure, DB schema, API surface, business logic, state management |
+| [Test plan](docs/test-plan.md) | What's tested, how, and why — including two real bugs the test suite caught |
+| [Scale](docs/scale.md) | What holds up today, what wouldn't at real scale, what would change first |
+| [Security](docs/security.md) | Auth, authorization (RLS + application layer), validation, secrets, known gaps |
+| [Local setup](docs/local-setup.md) | Full instructions below, and in more detail |
+
+## Stack
+
+Next.js 16 (App Router) · TypeScript · Tailwind CSS v4 · Supabase (Postgres, Auth, Storage,
+Realtime) · Vercel · Zod · Vitest + React Testing Library · Playwright
+
+## Quick start
 
 ```bash
+npm install
+cp .env.example .env.local   # then fill in your Supabase project's keys - see docs/local-setup.md
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Full setup (creating the Supabase project, applying migrations, promoting an admin user, running
+tests) is in [`docs/local-setup.md`](docs/local-setup.md).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Testing
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm test          # unit + component tests (Vitest)
+npm run test:e2e  # end-to-end (Playwright), needs a real Supabase project
+```
