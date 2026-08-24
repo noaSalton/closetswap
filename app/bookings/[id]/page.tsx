@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getCurrentUser } from "@/lib/auth";
 import { BookingStatusBadge } from "@/components/BookingStatusBadge";
 import { BookingActionButton } from "@/components/BookingActionButton";
+import { ChatPanel } from "@/components/ChatPanel";
 import {
   approveBooking,
   rejectBooking,
@@ -11,7 +12,7 @@ import {
   markPickedUp,
   markReturned,
 } from "@/lib/actions/bookings";
-import type { Booking } from "@/lib/types";
+import type { Booking, Message } from "@/lib/types";
 
 type BookingDetail = Booking & {
   item: { id: string; title: string; item_images: { url: string }[] };
@@ -37,6 +38,18 @@ export default async function BookingDetailPage(props: PageProps<"/bookings/[id]
 
   const role = booking.renter_id === currentUser.id ? "renter" : "owner";
   const counterparty = role === "renter" ? booking.owner : booking.renter;
+
+  const { data: messages } = await supabase
+    .from("messages")
+    .select("*")
+    .eq("booking_id", booking.id)
+    .order("created_at", { ascending: true })
+    .returns<Message[]>();
+
+  const participantNames: Record<string, string> = {
+    [booking.renter.id]: booking.renter.full_name,
+    [booking.owner.id]: booking.owner.full_name,
+  };
 
   return (
     <div className="mx-auto max-w-2xl">
@@ -132,6 +145,13 @@ export default async function BookingDetailPage(props: PageProps<"/bookings/[id]
           <p className="text-sm text-stone-500">This request was declined.</p>
         )}
       </div>
+
+      <ChatPanel
+        bookingId={booking.id}
+        currentUserId={currentUser.id}
+        initialMessages={messages ?? []}
+        participantNames={participantNames}
+      />
     </div>
   );
 }
