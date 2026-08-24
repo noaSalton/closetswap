@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { requestBookingSchema } from "@/lib/validation/bookings";
 import { firstIssueMessage } from "@/lib/validation/utils";
 import { canTransition, type BookingAction } from "@/lib/booking-state-machine";
@@ -12,14 +13,20 @@ import type { Booking } from "@/lib/types";
 
 const ACTIVE_STATUSES = ["approved", "paid", "in_progress"] as const;
 
+// Deliberately uses the service-role client, bypassing RLS: the caller
+// (e.g. a renter who isn't yet a party to any booking on this item) is not
+// allowed to SELECT another user's booking rows under
+// bookings_select_participant, so the RLS-scoped client would silently see
+// zero rows and let double-bookings through. Only a boolean derived from a
+// count is ever returned to the action's caller - no row data leaks.
 async function hasOverlap(
-  supabase: Awaited<ReturnType<typeof createClient>>,
   itemId: string,
   startDate: string,
   endDate: string,
   excludeBookingId?: string,
 ) {
-  let query = supabase
+  const admin = createAdminClient();
+  let query = admin
     .from("bookings")
     .select("id", { count: "exact", head: true })
     .eq("item_id", itemId)
@@ -60,7 +67,7 @@ export async function createBooking(input: {
     return { error: "You can't rent your own item." };
   }
 
-  if (await hasOverlap(supabase, item.id, parsed.data.startDate, parsed.data.endDate)) {
+  if (await hasOverlap(item.id, parsed.data.startDate, parsed.data.endDate)) {
     return { error: "This item is already booked for part of that date range." };
   }
 
@@ -108,7 +115,7 @@ async function runTransition(bookingId: string, action: BookingAction): Promise<
 
   if (
     (result.next === "approved" || result.next === "paid") &&
-    (await hasOverlap(supabase, booking.item_id, booking.start_date, booking.end_date, booking.id))
+    (await hasOverlap(booking.item_id, booking.start_date, booking.end_date, booking.id))
   ) {
     return { error: "This item was already booked for overlapping dates in the meantime." };
   }
