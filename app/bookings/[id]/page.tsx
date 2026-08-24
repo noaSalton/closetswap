@@ -5,6 +5,8 @@ import { getCurrentUser } from "@/lib/auth";
 import { BookingStatusBadge } from "@/components/BookingStatusBadge";
 import { BookingActionButton } from "@/components/BookingActionButton";
 import { ChatPanel } from "@/components/ChatPanel";
+import { RatingForm } from "@/components/RatingForm";
+import { RatingStars } from "@/components/RatingStars";
 import {
   approveBooking,
   rejectBooking,
@@ -50,6 +52,17 @@ export default async function BookingDetailPage(props: PageProps<"/bookings/[id]
     [booking.renter.id]: booking.renter.full_name,
     [booking.owner.id]: booking.owner.full_name,
   };
+
+  let myRating: { score: number; comment: string | null } | null = null;
+  if (booking.status === "returned") {
+    const { data } = await supabase
+      .from("ratings")
+      .select("score, comment")
+      .eq("booking_id", booking.id)
+      .eq("rater_id", currentUser.id)
+      .maybeSingle();
+    myRating = data;
+  }
 
   return (
     <div className="mx-auto max-w-2xl">
@@ -145,6 +158,19 @@ export default async function BookingDetailPage(props: PageProps<"/bookings/[id]
           <p className="text-sm text-stone-500">This request was declined.</p>
         )}
       </div>
+
+      {booking.status === "returned" &&
+        (myRating ? (
+          <div className="mt-6 rounded-lg border border-stone-200 p-4">
+            <p className="text-sm text-stone-500">
+              You rated {counterparty.full_name || "them"}
+            </p>
+            <RatingStars score={myRating.score} />
+            {myRating.comment && <p className="mt-1 text-sm text-stone-700">{myRating.comment}</p>}
+          </div>
+        ) : (
+          <RatingForm bookingId={booking.id} counterpartyName={counterparty.full_name} />
+        ))}
 
       <ChatPanel
         bookingId={booking.id}
