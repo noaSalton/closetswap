@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentUser } from "@/lib/auth";
 import { ItemOwnerActions } from "@/components/ItemOwnerActions";
+import { BookingRequestForm } from "@/components/BookingRequestForm";
 import type { Item, ItemImage, Profile } from "@/lib/types";
 
 type ItemDetail = Item & {
@@ -99,7 +100,11 @@ export default async function ItemDetailPage(props: PageProps<"/items/[id]">) {
             </Link>{" "}
             to request this item.
           </p>
-        ) : null}
+        ) : item.is_active ? (
+          <BookingRequestForm itemId={item.id} pricePerDay={item.price_per_day} />
+        ) : (
+          <p className="mt-6 text-sm text-stone-500">This item isn&apos;t available right now.</p>
+        )}
       </div>
     </div>
   );
