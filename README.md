@@ -4,8 +4,8 @@ A peer-to-peer clothing rental marketplace — rent out clothes you own, rent gr
 people near you instead of buying something you'll wear once. Final project for Internet
 Technologies, RUNI CS 2026.
 
-- **Live app**: _add Vercel URL after deploying_
-- **Repository**: _add GitHub URL after pushing_
+- **Live app**: https://closetswap-nine.vercel.app
+- **Repository**: https://github.com/noaSalton/closetswap
 
 ## Documentation
 
