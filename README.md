@@ -17,6 +17,8 @@ Technologies, RUNI CS 2026.
 | [Scale](docs/scale.md) | What holds up today, what wouldn't at real scale, what would change first |
 | [Security](docs/security.md) | Auth, authorization (RLS + application layer), validation, secrets, known gaps |
 | [Local setup](docs/local-setup.md) | Full instructions below, and in more detail |
+| [Presentation](docs/presentation/closetswap-presentation.pptx) | 13-slide deck for the 10–15 min presentation |
+| [Presentation notes](docs/presentation-outline.md) | Talking points/speaker notes to pair with the deck |
 
 ## Stack
 
