@@ -6,7 +6,7 @@ import { FormError } from "@/components/FormError";
 import type { ActionState } from "@/lib/actions/action-state";
 
 const VARIANTS = {
-  primary: "bg-indigo-600 text-white hover:bg-indigo-700",
+  primary: "bg-stone-900 text-white hover:bg-stone-800",
   secondary: "border border-stone-300 text-stone-700 hover:bg-stone-100",
   danger: "border border-red-200 text-red-600 hover:bg-red-50",
 };

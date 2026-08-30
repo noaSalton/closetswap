@@ -70,7 +70,7 @@ export default async function ItemDetailPage(props: PageProps<"/items/[id]">) {
         <p className="mt-1 text-sm text-stone-500">
           {item.category} · Size {item.size}
         </p>
-        <p className="mt-4 text-2xl font-semibold text-indigo-600">
+        <p className="mt-4 text-2xl font-semibold text-stone-900">
           ${item.price_per_day.toFixed(2)}
           <span className="text-sm font-normal text-stone-500"> / day</span>
         </p>
@@ -80,7 +80,7 @@ export default async function ItemDetailPage(props: PageProps<"/items/[id]">) {
           <p className="text-sm text-stone-500">Listed by</p>
           <Link
             href={`/profile/${item.owner.id}`}
-            className="font-medium text-stone-900 hover:text-indigo-600"
+            className="font-medium text-stone-900 hover:text-stone-600"
           >
             {item.owner.full_name || "ClosetSwap user"}
           </Link>
@@ -95,7 +95,7 @@ export default async function ItemDetailPage(props: PageProps<"/items/[id]">) {
           <ItemOwnerActions itemId={item.id} isActive={item.is_active} />
         ) : !currentUser ? (
           <p className="mt-6 text-sm text-stone-600">
-            <Link href="/login" className="font-medium text-indigo-600 hover:text-indigo-700">
+            <Link href="/login" className="font-medium text-stone-900 hover:text-stone-800">
               Log in
             </Link>{" "}
             to request this item.

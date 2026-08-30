@@ -30,7 +30,7 @@ export function ItemCard({ item }: { item: Item & { item_images: Pick<ItemImage,
         <p className="text-sm text-stone-500">
           {item.category} · Size {item.size}
         </p>
-        <p className="mt-1 font-medium text-indigo-600">
+        <p className="mt-1 font-medium text-stone-900">
           ${item.price_per_day.toFixed(2)} <span className="text-sm text-stone-500">/ day</span>
         </p>
       </div>

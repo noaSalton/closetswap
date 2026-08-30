@@ -20,7 +20,7 @@ export default async function AdminDashboardPage() {
     <div>
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Admin</h1>
-        <Link href="/admin/users" className="text-sm font-medium text-indigo-600 hover:text-indigo-700">
+        <Link href="/admin/users" className="text-sm font-medium text-stone-900 hover:text-stone-800">
           Manage users →
         </Link>
       </div>

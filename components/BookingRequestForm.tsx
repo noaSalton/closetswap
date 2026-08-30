@@ -74,7 +74,7 @@ export function BookingRequestForm({
       <button
         type="submit"
         disabled={!valid || isPending}
-        className="w-full rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
+        className="w-full rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800 disabled:cursor-not-allowed disabled:opacity-60"
       >
         {isPending ? "Sending request..." : "Request to rent"}
       </button>

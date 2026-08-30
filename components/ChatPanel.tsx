@@ -75,7 +75,7 @@ export function ChatPanel({
             key={m.id}
             className={`max-w-[75%] rounded-lg px-3 py-2 text-sm ${
               m.sender_id === currentUserId
-                ? "ml-auto bg-indigo-600 text-white"
+                ? "ml-auto bg-stone-900 text-white"
                 : "bg-stone-100 text-stone-900"
             }`}
           >
@@ -93,12 +93,12 @@ export function ChatPanel({
           onChange={(e) => setBody(e.target.value)}
           placeholder="Message..."
           maxLength={2000}
-          className="flex-1 rounded-md border border-stone-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+          className="flex-1 rounded-md border border-stone-300 px-3 py-2 text-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
         />
         <button
           type="submit"
           disabled={sending || !body.trim()}
-          className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
+          className="rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800 disabled:cursor-not-allowed disabled:opacity-60"
         >
           Send
         </button>

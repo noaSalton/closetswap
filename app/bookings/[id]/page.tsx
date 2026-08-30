@@ -66,7 +66,7 @@ export default async function BookingDetailPage(props: PageProps<"/bookings/[id]
 
   return (
     <div className="mx-auto max-w-2xl">
-      <Link href={`/items/${booking.item.id}`} className="text-sm text-indigo-600 hover:text-indigo-700">
+      <Link href={`/items/${booking.item.id}`} className="text-sm text-stone-900 hover:text-stone-800">
         &larr; {booking.item.title}
       </Link>
 

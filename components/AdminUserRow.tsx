@@ -40,7 +40,7 @@ export function AdminUserRow({ user }: { user: Profile }) {
             type="button"
             onClick={toggle}
             disabled={isPending}
-            className="text-sm font-medium text-indigo-600 hover:text-indigo-700 disabled:opacity-60"
+            className="text-sm font-medium text-stone-900 hover:text-stone-800 disabled:opacity-60"
           >
             {user.is_blocked ? "Unblock" : "Block"}
           </button>

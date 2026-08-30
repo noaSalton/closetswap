@@ -51,7 +51,7 @@ export default async function DashboardPage() {
       <section>
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-medium">My listings</h2>
-          <Link href="/items/new" className="text-sm font-medium text-indigo-600 hover:text-indigo-700">
+          <Link href="/items/new" className="text-sm font-medium text-stone-900 hover:text-stone-800">
             + New listing
           </Link>
         </div>

@@ -48,7 +48,7 @@ export default async function HomePage(props: PageProps<"/">) {
           name="q"
           defaultValue={q}
           placeholder="Search listings..."
-          className="min-w-[200px] flex-1 rounded-md border border-stone-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+          className="min-w-[200px] flex-1 rounded-md border border-stone-300 px-3 py-2 text-sm focus:border-stone-500 focus:outline-none focus:ring-1 focus:ring-stone-500"
         />
         <select
           name="category"
@@ -76,7 +76,7 @@ export default async function HomePage(props: PageProps<"/">) {
         </select>
         <button
           type="submit"
-          className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+          className="rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800"
         >
           Search
         </button>
@@ -138,7 +138,7 @@ function PageLink({
   }
   search.set("page", String(page));
   return (
-    <Link href={`/?${search.toString()}`} className="font-medium text-indigo-600 hover:text-indigo-700">
+    <Link href={`/?${search.toString()}`} className="font-medium text-stone-900 hover:text-stone-800">
       {label}
     </Link>
   );
