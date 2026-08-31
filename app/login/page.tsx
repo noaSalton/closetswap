@@ -1,11 +1,12 @@
 "use client";
 
-import { useActionState } from "react";
+import { Suspense, useActionState } from "react";
 import Link from "next/link";
 import { signIn } from "@/lib/actions/auth";
 import { initialActionState } from "@/lib/actions/action-state";
 import { SubmitButton } from "@/components/SubmitButton";
 import { FormError } from "@/components/FormError";
+import { ConfirmErrorBanner } from "@/components/ConfirmErrorBanner";
 import { inputClass, labelClass } from "@/components/form-styles";
 
 export default function LoginPage() {
@@ -14,6 +15,9 @@ export default function LoginPage() {
   return (
     <div className="mx-auto max-w-sm">
       <h1 className="text-2xl font-semibold">Log in</h1>
+      <Suspense fallback={null}>
+        <ConfirmErrorBanner />
+      </Suspense>
       <form action={action} className="mt-6 space-y-4">
         <div>
           <label htmlFor="email" className={labelClass}>
