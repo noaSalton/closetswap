@@ -54,7 +54,15 @@ const admin = createClient(SUPABASE_URL, SERVICE_ROLE_KEY);
 await admin.auth.admin.createUser({ email, password, email_confirm: true });
 ```
 
-## 5. Promote a user to admin
+## 5. Deploying: update the Supabase Site URL
+
+Supabase's default confirmation-email link redirects to whatever **Site URL** is set in
+**Authentication → URL Configuration** — it ships set to `http://localhost:3000`. Deploy to Vercel
+without changing this and every signup confirmation link redirects real users to `localhost`,
+which their browser can't reach. Update **Site URL** to the deployed URL (and add both the
+deployed URL and `http://localhost:3000` to **Redirect URLs**) before real users sign up.
+
+## 6. Promote a user to admin
 
 There's no UI for this by design (see `docs/security.md`) — it's a one-time manual step:
 
@@ -64,7 +72,7 @@ update public.profiles set role = 'admin' where id = '<user-uuid>';
 
 Run in the Supabase SQL Editor, or via the service-role key from a script.
 
-## 6. Run the tests
+## 7. Run the tests
 
 ```bash
 npm test          # Vitest: unit + component tests, no external dependencies
@@ -77,7 +85,7 @@ test data in, not necessarily production. It starts its own `next dev` server au
 (`playwright.config.ts`); make sure nothing else is already bound to port 3000, or stop it first
 (Next.js refuses to run two dev servers for the same project simultaneously).
 
-## 7. Lint and type-check
+## 8. Lint and type-check
 
 ```bash
 npm run lint

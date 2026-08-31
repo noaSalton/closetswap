@@ -88,3 +88,10 @@ hand during development instead, each re-verified after the relevant migration w
   restriction — both were verified manually against the live database during development; adding
   them would mean either running migrations against a disposable test database per CI run, or
   accepting shared state across test runs the way the current e2e suite already does.
+- **No coverage for deployment/environment configuration** — a real bug found by manual testing on
+  the deployed site, not by the automated suite: the Supabase project's Site URL was left at its
+  default `http://localhost:3000`, so every real signup's confirmation email redirected to
+  `localhost` instead of the deployed app. e2e tests never caught this because they confirm users
+  through the admin API (`email_confirm: true`), bypassing the real email-link flow entirely - the
+  one thing an automated suite in this setup structurally can't exercise. See
+  [`docs/technical-design.md`](./technical-design.md) "Known simplifications" for the fix.

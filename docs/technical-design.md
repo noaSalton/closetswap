@@ -13,8 +13,12 @@
   booking, send a message, block a user) is a `"use server"` function called directly from a form
   or a client component, not a hand-rolled `/api/*` route. Next.js already gives Server Actions
   CSRF protection (origin/host check), encrypted action references, and dead-code elimination of
-  unused actions from the client bundle — see [`lib/actions/`](../lib/actions/). Route Handlers
-  weren't needed anywhere in this app; there's no third-party webhook or non-form client to serve.
+  unused actions from the client bundle — see [`lib/actions/`](../lib/actions/). The one Route
+  Handler in the app, `app/auth/confirm/route.ts`, exists to consume Supabase's `token_hash`-style
+  verification links (magic link/OTP-style, and the pattern Supabase's own docs recommend for
+  SSR apps) and turn them into a real session cookie; it's not on the signup path today only
+  because template customization needs a paid plan or custom SMTP (see
+  [Known simplifications](#known-simplifications) below) — everything else stayed on Server Actions.
 - **RLS as the authorization floor, application code as the business-logic layer.** Postgres Row
   Level Security decides *whether a row is visible/writable at all* (only participants see a
   booking, only the owner edits their item). *Which state transition is legal for which role*
@@ -163,6 +167,17 @@ temporary local message with the eventual persisted row.
 
 ## Known simplifications
 
+- **Signup confirmation runs through Supabase's hosted redirect, not `/auth/confirm`.** The
+  default email template (free tier, Supabase's built-in email provider - custom templates need a
+  paid plan or your own SMTP) uses `{{ .ConfirmationURL }}`, which is a link Supabase itself hosts
+  and verifies, then redirects the browser to the app's Site URL. The real bug this project hit
+  wasn't a missing route at all: the Supabase project's **Site URL** was still the default
+  `http://localhost:3000`, so every confirmation redirected somewhere the user's browser could
+  never reach, whatever the actual failure page looked like. The fix was correcting Site URL /
+  Redirect URLs in the Supabase dashboard (Authentication → URL Configuration) to the deployed
+  Vercel URL. `app/auth/confirm/route.ts` is still in the app and correct - it's the
+  officially-recommended handler for `token_hash`-style links - but it only comes into play if the
+  email templates are ever customized to use that format instead.
 - `returned` is the terminal booking status; the spec's "closed / rated" next-step wasn't modeled
   as a separate status (see [`docs/product-spec.md`](./product-spec.md) appendix).
 - No renter-initiated cancellation of a pending request — only the owner can approve/reject. Not
